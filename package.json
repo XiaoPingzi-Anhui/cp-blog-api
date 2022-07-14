@@ -1,0 +1,25 @@
+{
+  "name": "cp-blog-api",
+  "version": "1.0.0",
+  "description": "cp-blog的api服务",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XiaoPingzi-Anhui/cp-blog-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XiaoPingzi-Anhui/cp-blog-api/issues"
+  },
+  "homepage": "https://github.com/XiaoPingzi-Anhui/cp-blog-api#readme",
+  "dependencies": {
+    "@vercel/node": "^2.4.3",
+    "koa": "^2.13.4"
+  }
+}

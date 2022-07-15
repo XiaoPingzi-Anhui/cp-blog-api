@@ -8,8 +8,16 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "src": "/",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/users",
+      "methods": [
+        "POST",
+        "GET"
+      ],
+      "dest": "/api/index.js"
     }
   ],
   "headers": [

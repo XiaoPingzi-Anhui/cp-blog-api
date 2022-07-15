@@ -4,6 +4,7 @@ module.exports = (req, res) => {
       { name: "Alexa", location: "New York City" },
       { name: "Jacek", location: "Hamburg" },
     ])
+    response.send("DearXuan's API by nodejs!");
   } else {
     const { name, location } = req.body;
 

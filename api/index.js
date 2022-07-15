@@ -1,13 +1,21 @@
-module.exports = (req, res) => {
-  if (req.method === 'GET') {
-    res.json([
-      { name: "Alexa", location: "New York City" },
-      { name: "Jacek", location: "Hamburg" },
-    ])
-    response.send("DearXuan's API by nodejs!");
-  } else {
-    const { name, location } = req.body;
+var express = require('express');
+var app = express();
 
-    res.send({ status: "User Created", name, location });
-  }
-}
+app.get('/test', function (req, res) {
+  res.send('Hello World');
+})
+
+app.get('/test1', function (req, res) {
+  res.send('Hello World');
+})
+
+var server = app.listen(8081, function () {
+
+  var host = server.address().address
+  var port = server.address().port
+
+  console.log("应用实例，访问地址为 http://%s:%s", host, port)
+
+})
+
+module.exports = app;

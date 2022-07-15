@@ -2,10 +2,8 @@
   "name": "cp-blog-api",
   "version": "1.0.0",
   "description": "cp-blog的api服务",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

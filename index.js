@@ -11,6 +11,10 @@ expressapp.get('/', function (req, res) {
   res.send('Hello World');
 })
 
+expressapp.get('/test', function (req, res) {
+  res.send('Hello Worldtest!');
+})
+
 expressapp.listen(3008, () => {
   console.log('3008项目启动')
 });

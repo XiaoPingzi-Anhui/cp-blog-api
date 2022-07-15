@@ -18,3 +18,5 @@ expressapp.get('/test', function (req, res) {
 expressapp.listen(3008, () => {
   console.log('3008项目启动')
 });
+
+module.exports = expressapp

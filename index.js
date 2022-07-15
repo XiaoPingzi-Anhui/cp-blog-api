@@ -1,15 +1,15 @@
-var express = require('express');
-var app = express();
+const express = require('express');
 
-app.get('/test', function (req, res) {
-    res.send('Hello World');
-})
+const app = express();
 
-var server = app.listen(8081, function () {
+app.get('/', (req, res) => res.send('Home Page Route'));
 
-    var host = server.address().address
-    var port = server.address().port
+app.get('/about', (req, res) => res.send('About Page Route'));
 
-    console.log("应用实例，访问地址为 http://%s:%s", host, port)
+app.get('/portfolio', (req, res) => res.send('Portfolio Page Route'));
 
-})
+app.get('/contact', (req, res) => res.send('Contact Page Route'));
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => console.log(`Server running on ${port}, http://localhost:${port}`));

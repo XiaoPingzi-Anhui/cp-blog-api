@@ -1,10 +1,15 @@
-const Koa = require('koa');
-const app = new Koa();
+var express = require('express');
+var app = express();
 
-app.use(async ctx => {
-    ctx.body = 'Hello Vercel';
-});
+app.get('/test', function (req, res) {
+    res.send('Hello World');
+})
 
-app.listen(3008, () => {
-    console.log('3008项目启动')
-});
+var server = app.listen(8081, function () {
+
+    var host = server.address().address
+    var port = server.address().port
+
+    console.log("应用实例，访问地址为 http://%s:%s", host, port)
+
+})

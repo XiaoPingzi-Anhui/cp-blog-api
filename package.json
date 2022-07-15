@@ -20,6 +20,6 @@
   "homepage": "https://github.com/XiaoPingzi-Anhui/cp-blog-api#readme",
   "dependencies": {
     "@vercel/node": "^2.4.3",
-    "koa": "^2.13.4"
+    "express": "^4.18.1"
   }
 }

@@ -11,7 +11,7 @@ expressapp.get('/', function (req, res) {
   res.send('Hello World');
 })
 
-expressapp.get('/test', function (req, res) {
+expressapp.get('/api/test', function (req, res) {
   res.send('Hello Worldtest!');
 })
 

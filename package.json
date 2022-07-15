@@ -2,7 +2,7 @@
   "name": "cp-blog-api",
   "version": "1.0.0",
   "description": "cp-blog的api服务",
-  "main": "index.js",
+  "main": "/api/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./api/index.js"

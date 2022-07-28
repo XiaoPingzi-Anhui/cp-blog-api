@@ -32,7 +32,6 @@ function addNewUser(req, res) {
 }
 
 function getAllUsers(req, res) {
-  console.log(reqBody);
   User.find((error, docs) => {
     if (!error) {
       console.log(docs);

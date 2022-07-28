@@ -1,92 +1,56 @@
 const User = require("./user.model");
+const handleRetuen = require("../../utils/handleRetuen");
+const httpStatus = require("http-status");
 
-/**
- * Load user and append to req.
- */
-function load(req, res, next, id) {
-  User.get(id)
-    .then((user) => {
-      req.user = user; // eslint-disable-line no-param-reassign
-      return next();
-    })
-    .catch((e) => next(e));
-}
-
-/**
- * Get user
- * @returns {User}
- */
-function get(req, res) {
-  return res.json(req.user);
-}
-
-/**
- * Create new user
- * @property {string} req.body.username - The username of user.
- * @property {string} req.body.mobileNumber - The mobileNumber of user.
- * @returns {User}
- */
-function create(req, res, next) {
+function addNewUser(req, res) {
+  const reqBody = req.body;
   const user = new User({
-    username: req.body.username,
-    mobileNumber: req.body.mobileNumber,
+    userName: reqBody?.userName,
+    passWord: reqBody?.passWord,
+    email: reqBody?.email,
+    mobileNumber: reqBody?.mobileNumber,
+    permissions: reqBody?.permissions ?? 2,
+    avatarLink: reqBody?.avatarLink,
+    age: reqBody?.age,
+    birthday: reqBody?.birthday,
   });
-
-  user
-    .save()
-    .then((savedUser) => res.json(savedUser))
-    .catch((e) => next(e));
-}
-
-/**
- * Update existing user
- * @property {string} req.body.username - The username of user.
- * @property {string} req.body.mobileNumber - The mobileNumber of user.
- * @returns {User}
- */
-function update(req, res, next) {
-  const user = req.user;
-  user.username = req.body.username;
-  user.mobileNumber = req.body.mobileNumber;
-
-  user
-    .save()
-    .then((savedUser) => res.json(savedUser))
-    .catch((e) => next(e));
-}
-
-/**
- * Get user list.
- * @property {number} req.query.skip - Number of users to be skipped.
- * @property {number} req.query.limit - Limit number of users to be returned.
- * @returns {User[]}
- */
-function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
-  User.list({ limit, skip })
-    .then((users) => res.json(users))
-    .catch((e) => next(e));
-}
-
-/**
- * Delete user.
- * @returns {User}
- */
-function remove(req, res, next) {
-  const user = req.user;
-  user
-    .remove()
-    .then((deletedUser) => res.json(deletedUser))
-    .catch((e) => next(e));
-}
-
-function test() {
-  const user = new User({
-    username: "测试",
-    mobileNumber: "13966760911",
+  user.save((error, docs) => {
+    if (!error) {
+      res.json(
+        handleRetuen({
+          data: docs,
+          returnCode: httpStatus[200],
+        })
+      );
+    } else {
+      res.send({
+        returnCode: httpStatus[500],
+        error,
+      });
+    }
   });
-  console.log("jinlaile ");
-  user.save();
 }
 
-module.exports = { load, get, create, update, list, remove, test };
+function getAllUsers(req, res) {
+  console.log(reqBody);
+  User.find((error, docs) => {
+    if (!error) {
+      console.log(docs);
+      res.json(
+        handleRetuen({
+          data: docs,
+          returnCode: httpStatus[200],
+        })
+      );
+    } else {
+      res.send(
+        handleRetuen({
+          returnCode: httpStatus[500],
+          error,
+        })
+      );
+    }
+  });
+}
+
+module.exports = { getAllUsers, addNewUser };

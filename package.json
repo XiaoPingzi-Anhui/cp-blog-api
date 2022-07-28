@@ -9,8 +9,17 @@
     "type": "git",
     "url": "git+https://github.com/XiaoPingzi-Anhui/cp-blog-api.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "express",
+    "node",
+    "node.js",
+    "mongodb",
+    "mongoose",
+    "es6",
+    "REST",
+    "API"
+  ],
+  "author": "ChenPing",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/XiaoPingzi-Anhui/cp-blog-api/issues"
@@ -19,6 +28,7 @@
   "dependencies": {
     "@vercel/node": "^2.4.3",
     "express": "^4.18.1",
+    "http-status": "^1.5.2",
     "mongoose": "^6.5.0",
     "uuid": "^8.3.2"
   }

@@ -10,7 +10,6 @@ db.once("error", () => {
   console.log("链接失败");
 });
 
-//将stuSchema映射到一个MongoDB collection并定义这个文档的构成
-const useCtl = require("./user/user.controller");
+const userCtl = require("./user/user.controller");
 
-module.exports = { useCtl };
+module.exports = { userCtl };

@@ -1,20 +1,13 @@
-const User = require("./user.model");
+const Category = require("./category.model");
 const handleRetuen = require("../../utils/handleRetuen");
 const httpStatus = require("http-status");
 
-function addNewUser(req, res) {
+function addNewCategory(req, res) {
   const reqBody = req.body;
-  const user = new User({
-    userName: reqBody?.userName,
-    passWord: reqBody?.passWord,
-    email: reqBody?.email,
-    mobileNumber: reqBody?.mobileNumber,
-    permissions: reqBody?.permissions ?? 2,
-    avatarLink: reqBody?.avatarLink,
-    age: reqBody?.age,
-    birthday: reqBody?.birthday,
+  const category = new Category({
+    categoryName: reqBody?.categoryName,
   });
-  user.save((error, docs) => {
+  category.save((error, docs) => {
     if (!error) {
       res.json(
         handleRetuen({
@@ -23,7 +16,7 @@ function addNewUser(req, res) {
         })
       );
     } else {
-      res.send({
+      res.json({
         returnCode: httpStatus[500],
         error,
       });
@@ -31,8 +24,8 @@ function addNewUser(req, res) {
   });
 }
 
-function getAllUsers(req, res) {
-  User.find((error, docs) => {
+function getAllCategory(req, res) {
+  Category.find((error, docs) => {
     if (!error) {
       res.json(
         handleRetuen({
@@ -51,8 +44,8 @@ function getAllUsers(req, res) {
   });
 }
 
-function getUserById(req, res) {
-  User.findById(req.params.id, (error, docs) => {
+function getCategoryById(req, res) {
+  Category.findById(req.params.id, (error, docs) => {
     if (!error) {
       res.json(
         handleRetuen({
@@ -71,8 +64,8 @@ function getUserById(req, res) {
   });
 }
 
-function deleteUserById(req, res) {
-  User.remove({ _id: req.params.id }, (error, docs) => {
+function deleteCategoryById(req, res) {
+  Category.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
       res.json(
         handleRetuen({
@@ -91,4 +84,9 @@ function deleteUserById(req, res) {
   });
 }
 
-module.exports = { getAllUsers, addNewUser, getUserById, deleteUserById };
+module.exports = {
+  addNewCategory,
+  getAllCategory,
+  getCategoryById,
+  deleteCategoryById,
+};

@@ -70,7 +70,7 @@ function getArticleById(req, res) {
 }
 
 function deleteArticleById(req, res) {
-  Category.remove({ _id: req.params.id }, (error, docs) => {
+  Article.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
       res.json(
         handleRetuen({
@@ -89,9 +89,43 @@ function deleteArticleById(req, res) {
   });
 }
 
+function updateArticleById(req, res) {
+  const reqBody = req.body;
+  const article = {
+    userId: reqBody?.userId,
+    title: reqBody?.title,
+    content: reqBody?.content,
+    readCount: reqBody?.readCount ?? 0 + 1,
+    category: reqBody?.category,
+    lables: reqBody?.lables,
+  };
+  Article.updateOne(
+    { _id: req.params.id },
+    { $set: article },
+    (error, docs) => {
+      if (!error) {
+        res.json(
+          handleRetuen({
+            data: docs,
+            returnCode: httpStatus[200],
+          })
+        );
+      } else {
+        res.json(
+          handleRetuen({
+            returnCode: httpStatus[500],
+            error: "can not find item",
+          })
+        );
+      }
+    }
+  );
+}
+
 module.exports = {
   addNewArticle,
   getAllArticleBaseInfo,
   getArticleById,
   deleteArticleById,
+  updateArticleById,
 };

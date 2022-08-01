@@ -1,8 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-// const httpStatus = require("http-status");
 const myApi = require("../mongoose/index");
-const handleRetuen = require("../utils/handleRetuen");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -90,6 +88,11 @@ app.get("/api/getArticleById/:id", (req, res) => {
 /* 通过id删除文章 */
 app.delete("/api/deleteArticleById/:id", (req, res) => {
   myApi.articleCtl.deleteArticleById(req, res);
+});
+
+/* 通过id更新文章 */
+app.post("/api/updateArticleById/:id", (req, res) => {
+  myApi.articleCtl.updateArticleById(req, res);
 });
 
 const server = app.listen(8082, function () {

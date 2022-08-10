@@ -30,7 +30,7 @@ function addNewArticle(req, res) {
 }
 
 function getAllArticleBaseInfo(req, res) {
-  Article.find({}, "title category", (error, docs) => {
+  Article.find({}, "title category lables", (error, docs) => {
     if (!error) {
       res.json(
         handleRetuen({
@@ -52,6 +52,15 @@ function getAllArticleBaseInfo(req, res) {
 function getArticleById(req, res) {
   Article.findById(req.params.id, (error, docs) => {
     if (!error) {
+      const article = {
+        userId: docs?.userId,
+        title: docs?.title,
+        content: docs?.content,
+        readCount: docs?.readCount + 1,
+        category: docs?.category,
+        lables: docs?.lables,
+      };
+      Article.updateOne({ _id: req.params.id }, { $set: article });
       res.json(
         handleRetuen({
           data: docs,

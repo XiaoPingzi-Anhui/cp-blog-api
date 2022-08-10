@@ -30,23 +30,27 @@ function addNewArticle(req, res) {
 }
 
 function getAllArticleBaseInfo(req, res) {
-  Article.find({}, "title category lables", (error, docs) => {
-    if (!error) {
-      res.json(
-        handleRetuen({
-          data: docs,
-          returnCode: httpStatus[200],
-        })
-      );
-    } else {
-      res.json(
-        handleRetuen({
-          returnCode: httpStatus[500],
-          error,
-        })
-      );
+  Article.find(
+    {},
+    "title category lables createdAt readCount",
+    (error, docs) => {
+      if (!error) {
+        res.json(
+          handleRetuen({
+            data: docs,
+            returnCode: httpStatus[200],
+          })
+        );
+      } else {
+        res.json(
+          handleRetuen({
+            returnCode: httpStatus[500],
+            error,
+          })
+        );
+      }
     }
-  });
+  );
 }
 
 function getArticleById(req, res) {

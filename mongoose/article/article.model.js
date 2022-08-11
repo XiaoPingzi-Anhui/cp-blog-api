@@ -31,7 +31,7 @@ const ArticleSchema = new mongoose.Schema(
     /** 点赞数量 */
     likeStar: Number,
     /** 文章标签 */
-    lables: [String],
+    lables: String,
   },
   { timestamps: true }
 );

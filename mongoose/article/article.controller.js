@@ -57,14 +57,13 @@ function getArticleById(req, res) {
   Article.findById(req.params.id, (error, docs) => {
     if (!error) {
       const article = {
-        userId: docs?.userId,
-        title: docs?.title,
-        content: docs?.content,
         readCount: docs?.readCount + 1,
-        category: docs?.category,
-        lables: docs?.lables,
       };
-      Article.updateOne({ _id: req.params.id }, { $set: article });
+      Article.updateOne(
+        { _id: req.params.id },
+        { $set: article },
+        (e, doc) => {}
+      );
       res.json(
         handleRetuen({
           data: docs,

@@ -13,6 +13,6 @@ db.once("error", () => {
 const userCtl = require("./user/user.controller");
 const articleCtl = require("./article/article.controller");
 const categoryCtl = require("./category/category.controller");
-const lableCtl = require("./lable/lable.controller");
+const labelCtl = require("./label/label.controller");
 
-module.exports = { userCtl, articleCtl, categoryCtl, lableCtl };
+module.exports = { userCtl, articleCtl, categoryCtl, labelCtl };

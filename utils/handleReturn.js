@@ -1,4 +1,4 @@
-function handleRetuen({ data, returnCode, error }) {
+function handleReturn({ data, returnCode, error }) {
   return {
     data,
     info: error ? "failed" : "success",
@@ -7,4 +7,4 @@ function handleRetuen({ data, returnCode, error }) {
   };
 }
 
-module.exports = handleRetuen;
+module.exports = handleReturn;

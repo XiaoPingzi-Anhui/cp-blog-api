@@ -50,23 +50,23 @@ app.delete("/api/deleteCategoryById/:id", (req, res) => {
 
 /* -------------------------------------------- 标签 ------------------------------------ */
 /* 获取所有标签列表 */
-app.get("/api/lableLists", (req, res) => {
-  myApi.lableCtl.getAllLables(req, res);
+app.get("/api/labelLists", (req, res) => {
+  myApi.labelCtl.getAllLabels(req, res);
 });
 
 /* 新增标签 */
-app.post("/api/addNewLable", (req, res) => {
-  myApi.lableCtl.addNewLable(req, res);
+app.post("/api/addNewLabel", (req, res) => {
+  myApi.labelCtl.addNewLabel(req, res);
 });
 
 /* 通过id查询标签 */
-app.get("/api/getLableById/:id", (req, res) => {
-  myApi.lableCtl.getLableById(req, res);
+app.get("/api/getLabelById/:id", (req, res) => {
+  myApi.labelCtl.getLabelById(req, res);
 });
 
 /* 通过id删除标签 */
-app.delete("/api/deleteLableById/:id", (req, res) => {
-  myApi.lableCtl.deleteLableById(req, res);
+app.delete("/api/deleteLabelById/:id", (req, res) => {
+  myApi.labelCtl.deleteLabelById(req, res);
 });
 
 /* -------------------------------------------- 文章 ------------------------------------ */

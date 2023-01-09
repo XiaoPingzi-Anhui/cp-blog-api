@@ -1,5 +1,5 @@
 const User = require("./user.model");
-const handleRetuen = require("../../utils/handleRetuen");
+const handleReturn = require("../../utils/handleReturn");
 const httpStatus = require("http-status");
 
 function addNewUser(req, res) {
@@ -17,7 +17,7 @@ function addNewUser(req, res) {
   user.save((error, docs) => {
     if (!error) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
@@ -35,14 +35,14 @@ function getAllUsers(req, res) {
   User.find((error, docs) => {
     if (!error) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
       );
     } else {
       res.json(
-        handleRetuen({
+        handleReturn({
           returnCode: httpStatus[500],
           error,
         })
@@ -55,14 +55,14 @@ function getUserById(req, res) {
   User.findById(req.params.id, (error, docs) => {
     if (!error) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
       );
     } else {
       res.json(
-        handleRetuen({
+        handleReturn({
           returnCode: httpStatus[500],
           error,
         })
@@ -75,14 +75,14 @@ function deleteUserById(req, res) {
   User.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
       );
     } else {
       res.json(
-        handleRetuen({
+        handleReturn({
           returnCode: httpStatus[500],
           error: "can not find item",
         })

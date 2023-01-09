@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 /** 标签表 */
-const LableSchema = new mongoose.Schema({
+const labelSchema = new mongoose.Schema({
   /** 标签名 */
-  lableName: {
+  labelName: {
     type: String,
     required: true,
   },
 });
 
-module.exports = mongoose.model("lable", LableSchema);
+module.exports = mongoose.model("label", labelSchema);

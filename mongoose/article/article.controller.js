@@ -1,5 +1,5 @@
 const Article = require("./article.model");
-const handleRetuen = require("../../utils/handleRetuen");
+const handleReturn = require("../../utils/handleReturn");
 const httpStatus = require("http-status");
 
 function addNewArticle(req, res) {
@@ -10,12 +10,12 @@ function addNewArticle(req, res) {
     content: reqBody?.content,
     readCount: 0,
     category: reqBody?.category,
-    lables: reqBody?.lables,
+    labels: reqBody?.labels,
   });
   article.save((error, docs) => {
     if (!error) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
@@ -32,18 +32,18 @@ function addNewArticle(req, res) {
 function getAllArticleBaseInfo(req, res) {
   Article.find(
     {},
-    "title category lables createdAt readCount",
+    "title category labels createdAt readCount",
     (error, docs) => {
       if (!error) {
         res.json(
-          handleRetuen({
+          handleReturn({
             data: docs,
             returnCode: httpStatus[200],
           })
         );
       } else {
         res.json(
-          handleRetuen({
+          handleReturn({
             returnCode: httpStatus[500],
             error,
           })
@@ -65,14 +65,14 @@ function getArticleById(req, res) {
         (e, doc) => {}
       );
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
       );
     } else {
       res.json(
-        handleRetuen({
+        handleReturn({
           returnCode: httpStatus[500],
           error,
         })
@@ -85,14 +85,14 @@ function deleteArticleById(req, res) {
   Article.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
       );
     } else {
       res.json(
-        handleRetuen({
+        handleReturn({
           returnCode: httpStatus[500],
           error: "can not find item",
         })
@@ -109,7 +109,7 @@ function updateArticleById(req, res) {
     content: reqBody?.content,
     readCount: reqBody?.readCount ?? 0 + 1,
     category: reqBody?.category,
-    lables: reqBody?.lables,
+    labels: reqBody?.labels,
   };
   Article.updateOne(
     { _id: req.params.id },
@@ -117,14 +117,14 @@ function updateArticleById(req, res) {
     (error, docs) => {
       if (!error) {
         res.json(
-          handleRetuen({
+          handleReturn({
             data: docs,
             returnCode: httpStatus[200],
           })
         );
       } else {
         res.json(
-          handleRetuen({
+          handleReturn({
             returnCode: httpStatus[500],
             error: "can not find item",
           })

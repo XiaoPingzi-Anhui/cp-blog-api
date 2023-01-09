@@ -1,16 +1,16 @@
-const Lable = require("./lable.model");
-const handleRetuen = require("../../utils/handleRetuen");
+const label = require("./label.model");
+const handleReturn = require("../../utils/handleReturn");
 const httpStatus = require("http-status");
 
-function addNewLable(req, res) {
+function addNewLabel(req, res) {
   const reqBody = req.body;
-  const lable = new Lable({
-    lableName: reqBody?.lableName,
+  const label = new label({
+    labelName: reqBody?.labelName,
   });
-  lable.save((error, docs) => {
+  label.save((error, docs) => {
     if (!error) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
@@ -24,18 +24,18 @@ function addNewLable(req, res) {
   });
 }
 
-function getAllLables(req, res) {
-  Lable.find((error, docs) => {
+function getAllLabels(req, res) {
+  label.find((error, docs) => {
     if (!error) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
       );
     } else {
       res.json(
-        handleRetuen({
+        handleReturn({
           returnCode: httpStatus[500],
           error,
         })
@@ -44,18 +44,18 @@ function getAllLables(req, res) {
   });
 }
 
-function getLableById(req, res) {
-  Lable.findById(req.params.id, (error, docs) => {
+function getLabelById(req, res) {
+  label.findById(req.params.id, (error, docs) => {
     if (!error) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
       );
     } else {
       res.json(
-        handleRetuen({
+        handleReturn({
           returnCode: httpStatus[500],
           error,
         })
@@ -64,18 +64,18 @@ function getLableById(req, res) {
   });
 }
 
-function deleteLableById(req, res) {
-  Lable.remove({ _id: req.params.id }, (error, docs) => {
+function deleteLabelById(req, res) {
+  label.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
       res.json(
-        handleRetuen({
+        handleReturn({
           data: docs,
           returnCode: httpStatus[200],
         })
       );
     } else {
       res.json(
-        handleRetuen({
+        handleReturn({
           returnCode: httpStatus[500],
           error: "can not find item",
         })
@@ -84,4 +84,4 @@ function deleteLableById(req, res) {
   });
 }
 
-module.exports = { addNewLable, getAllLables, getLableById, deleteLableById };
+module.exports = { addNewLabel, getAllLabels, getLabelById, deleteLabelById };

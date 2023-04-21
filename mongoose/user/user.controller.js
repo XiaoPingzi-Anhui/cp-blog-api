@@ -1,6 +1,7 @@
 const User = require("./user.model");
 const handleReturn = require("../../utils/handleReturn");
 const httpStatus = require("http-status");
+const jwt = require("../../utils/jwt");
 
 function addNewUser(req, res) {
   const reqBody = req.body;
@@ -14,14 +15,17 @@ function addNewUser(req, res) {
     age: reqBody?.age,
     birthday: reqBody?.birthday,
   });
-  user.save((error, docs) => {
+  user.save(async (error, docs) => {
     if (!error) {
-      res.json(
-        handleReturn({
-          data: docs,
-          returnCode: httpStatus[200],
-        })
-      );
+      res
+        .status(201)
+        .setCookie("access_token", await jwt.signToken(docs))
+        .json(
+          handleReturn({
+            data: docs,
+            returnCode: httpStatus[200],
+          })
+        );
     } else {
       res.send({
         returnCode: httpStatus[500],
@@ -32,14 +36,17 @@ function addNewUser(req, res) {
 }
 
 function getAllUsers(req, res) {
-  User.find((error, docs) => {
+  User.find(async (error, docs) => {
     if (!error) {
-      res.json(
-        handleReturn({
-          data: docs,
-          returnCode: httpStatus[200],
-        })
-      );
+      res
+        .status(202)
+        .setCookie("access_token", await jwt.signToken(docs))
+        .json(
+          handleReturn({
+            data: docs,
+            returnCode: httpStatus[200],
+          })
+        );
     } else {
       res.json(
         handleReturn({

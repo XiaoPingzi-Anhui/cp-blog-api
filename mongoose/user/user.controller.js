@@ -4,13 +4,25 @@ const httpStatus = require("http-status");
 const jwt = require("../../utils/jwt");
 
 function addNewUser(req, res) {
-  const { userName, email, authority, passwordHash, phoneNumber } = req.body;
+  const {
+    username,
+    email,
+    authority,
+    password,
+    phoneNumber,
+    avatarUrl,
+    personalSignature,
+    sex,
+  } = req.body;
   const user = new User({
-    userName,
-    passwordHash,
+    username,
+    passwordHash: password,
     email,
     phoneNumber,
     authority,
+    avatarUrl,
+    personalSignature,
+    sex,
   });
   user.save(async (error, docs) => {
     if (!error) {

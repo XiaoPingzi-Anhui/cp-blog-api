@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       match: [
-        /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+        /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/,
         "The value of path {PATH} ({VALUE}) is not a valid email address.",
       ],
     },
@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userName: {
+    username: {
       type: String,
       required: true,
     },
@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       match: [
-        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+        /^1\d{10}$/,
         "The value of path {PATH} ({VALUE}) is not a valid mobile number.",
       ],
     },

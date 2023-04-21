@@ -2,6 +2,7 @@ const User = require("./user.model");
 const handleReturn = require("../../utils/handleReturn");
 const httpStatus = require("http-status");
 const jwt = require("../../utils/jwt");
+const bcrypt = require("bcryptjs");
 
 function addNewUser(req, res) {
   const {
@@ -84,6 +85,36 @@ function getUserById(req, res) {
   });
 }
 
+function login(req, res) {
+  User.find({ email: req.body?.email }, async (error, docs) => {
+    if (!error) {
+      const user = docs[0];
+      if (!user || !bcrypt.compareSync(req.body.password, user.passwordHash)) {
+        return res.status(401).json({
+          message: "Invalid email or password!",
+        });
+      } else {
+        res
+          .status(200)
+          .cookie("access_token", await jwt.signToken(user))
+          .json(
+            handleReturn({
+              data: user,
+              returnCode: httpStatus[200],
+            })
+          );
+      }
+    } else {
+      res.json(
+        handleReturn({
+          returnCode: httpStatus[500],
+          error,
+        })
+      );
+    }
+  });
+}
+
 function deleteUserById(req, res) {
   User.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
@@ -104,4 +135,10 @@ function deleteUserById(req, res) {
   });
 }
 
-module.exports = { getAllUsers, addNewUser, getUserById, deleteUserById };
+module.exports = {
+  getAllUsers,
+  addNewUser,
+  getUserById,
+  deleteUserById,
+  login,
+};

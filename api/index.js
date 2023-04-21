@@ -27,6 +27,11 @@ app.delete("/api/deleteUserById/:id", (req, res) => {
   myApi.userCtl.deleteUserById(req, res);
 });
 
+/* 登录 */
+app.post("/api/login", (req, res) => {
+  myApi.userCtl.login(req, res);
+});
+
 /* -------------------------------------------- 分类 ------------------------------------ */
 /* 获取所有分类列表 */
 app.get("/api/categoryLists", (req, res) => {

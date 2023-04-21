@@ -4,21 +4,18 @@ const httpStatus = require("http-status");
 const jwt = require("../../utils/jwt");
 
 function addNewUser(req, res) {
-  const reqBody = req.body;
+  const { userName, email, authority, passwordHash, phoneNumber } = req.body;
   const user = new User({
-    userName: reqBody?.userName,
-    passWord: reqBody?.passWord,
-    email: reqBody?.email,
-    mobileNumber: reqBody?.mobileNumber,
-    permissions: reqBody?.permissions ?? 2,
-    avatarLink: reqBody?.avatarLink,
-    age: reqBody?.age,
-    birthday: reqBody?.birthday,
+    userName,
+    passwordHash,
+    email,
+    phoneNumber,
+    authority,
   });
   user.save(async (error, docs) => {
     if (!error) {
       res
-        .status(201)
+        .status(200)
         .cookie("access_token", await jwt.signToken(docs))
         .json(
           handleReturn({
@@ -27,7 +24,7 @@ function addNewUser(req, res) {
           })
         );
     } else {
-      res.send({
+      res.json({
         returnCode: httpStatus[500],
         error,
       });
@@ -38,15 +35,12 @@ function addNewUser(req, res) {
 function getAllUsers(req, res) {
   User.find(async (error, docs) => {
     if (!error) {
-      res
-        .status(202)
-        .cookie("access_token", await jwt.signToken(docs))
-        .json(
-          handleReturn({
-            data: docs,
-            returnCode: httpStatus[200],
-          })
-        );
+      res.status(200).json(
+        handleReturn({
+          data: docs,
+          returnCode: httpStatus[200],
+        })
+      );
     } else {
       res.json(
         handleReturn({

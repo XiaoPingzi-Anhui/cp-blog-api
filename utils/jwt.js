@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const TOKEN_VALIDITY_PERIOD = 60 * 60 * 24 * 30;
 
-const secret = process.env.JWT_SECRET;
+const secret = "chenping"; // process.env.JWT_SECRET;
 
 function signToken(userInfo) {
   if (!secret)

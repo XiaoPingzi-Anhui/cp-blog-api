@@ -19,7 +19,7 @@ function addNewUser(req, res) {
     if (!error) {
       res
         .status(201)
-        .setCookie("access_token", await jwt.signToken(docs))
+        .cookie("access_token", await jwt.signToken(docs))
         .json(
           handleReturn({
             data: docs,
@@ -40,7 +40,7 @@ function getAllUsers(req, res) {
     if (!error) {
       res
         .status(202)
-        .setCookie("access_token", await jwt.signToken(docs))
+        .cookie("access_token", await jwt.signToken(docs))
         .json(
           handleReturn({
             data: docs,

@@ -44,17 +44,17 @@ async function addNewArticle(req, res) {
 }
 
 async function getAllArticleBaseInfo(req, res) {
-  const tokenPayload = await jwt.verifyToken(
-    req.headers?.authorization ?? "cp"
-  );
-  if (!tokenPayload?.userInfo?.authority) {
-    return res.json(
-      handleReturn({
-        returnCode: httpStatus[401],
-        error: 'message: "Unauthorized",',
-      })
-    );
-  }
+  // const tokenPayload = await jwt.verifyToken(
+  //   req.headers?.authorization ?? "cp"
+  // );
+  // if (!tokenPayload?.userInfo?.authority) {
+  //   return res.json(
+  //     handleReturn({
+  //       returnCode: httpStatus[401],
+  //       error: 'message: "Unauthorized",',
+  //     })
+  //   );
+  // }
   Article.find(
     {},
     "title category labels createdAt readCount authorId authorName likeStar",
@@ -79,17 +79,17 @@ async function getAllArticleBaseInfo(req, res) {
 }
 
 async function getArticleById(req, res) {
-  const tokenPayload = await jwt.verifyToken(
-    req.headers?.authorization ?? "cp"
-  );
-  if (!tokenPayload?.userInfo?.authority) {
-    return res.json(
-      handleReturn({
-        returnCode: httpStatus[401],
-        error: 'message: "Unauthorized",',
-      })
-    );
-  }
+  // const tokenPayload = await jwt.verifyToken(
+  //   req.headers?.authorization ?? "cp"
+  // );
+  // if (!tokenPayload?.userInfo?.authority) {
+  //   return res.json(
+  //     handleReturn({
+  //       returnCode: httpStatus[401],
+  //       error: 'message: "Unauthorized",',
+  //     })
+  //   );
+  // }
   Article.findById(req.params.id, (error, docs) => {
     if (!error) {
       const article = {

@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const db = mongoose.connection;
-mongoose.connect(
-  "mongodb+srv://Chenping:Chenping@chenping.a69dt.mongodb.net/cpblog?retryWrites=true&w=majority"
-);
+console.log("env", process.env.DB_URL);
+mongoose.connect(process.env.DB_URL);
 db.once("open", () => {
   console.log("链接成功");
 });

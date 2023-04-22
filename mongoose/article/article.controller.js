@@ -1,8 +1,22 @@
 const Article = require("./article.model");
 const handleReturn = require("../../utils/handleReturn");
 const httpStatus = require("http-status");
+const jwt = require("../../utils/jwt");
 
-function addNewArticle(req, res) {
+async function addNewArticle(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (
+    !["站长", "普通用户", "管理员"].includes(tokenPayload?.userInfo?.authority)
+  ) {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
   const reqBody = req.body;
   const article = new Article({
     userId: reqBody?.userId,
@@ -29,7 +43,18 @@ function addNewArticle(req, res) {
   });
 }
 
-function getAllArticleBaseInfo(req, res) {
+async function getAllArticleBaseInfo(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (!tokenPayload?.userInfo?.authority) {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
   Article.find(
     {},
     "title category labels createdAt readCount",
@@ -53,7 +78,18 @@ function getAllArticleBaseInfo(req, res) {
   );
 }
 
-function getArticleById(req, res) {
+async function getArticleById(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (!tokenPayload?.userInfo?.authority) {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
   Article.findById(req.params.id, (error, docs) => {
     if (!error) {
       const article = {
@@ -81,6 +117,7 @@ function getArticleById(req, res) {
   });
 }
 
+// todo:鉴权
 function deleteArticleById(req, res) {
   Article.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
@@ -101,6 +138,7 @@ function deleteArticleById(req, res) {
   });
 }
 
+// todo:鉴权
 function updateArticleById(req, res) {
   const reqBody = req.body;
   const article = {

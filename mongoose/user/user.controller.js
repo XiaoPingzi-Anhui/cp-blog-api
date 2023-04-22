@@ -45,46 +45,6 @@ function addNewUser(req, res) {
   });
 }
 
-function getAllUsers(req, res) {
-  User.find(async (error, docs) => {
-    if (!error) {
-      res.status(200).json(
-        handleReturn({
-          data: docs,
-          returnCode: httpStatus[200],
-        })
-      );
-    } else {
-      res.json(
-        handleReturn({
-          returnCode: httpStatus[500],
-          error,
-        })
-      );
-    }
-  });
-}
-
-function getUserById(req, res) {
-  User.findById(req.params.id, (error, docs) => {
-    if (!error) {
-      res.json(
-        handleReturn({
-          data: docs,
-          returnCode: httpStatus[200],
-        })
-      );
-    } else {
-      res.json(
-        handleReturn({
-          returnCode: httpStatus[500],
-          error,
-        })
-      );
-    }
-  });
-}
-
 function login(req, res) {
   User.find({ email: req.body?.email }, async (error, docs) => {
     if (!error) {
@@ -96,10 +56,7 @@ function login(req, res) {
       } else {
         res
           .status(200)
-          .setHeader(
-            "Set-Cookie",
-            `access_token=${await jwt.signToken(user)};Path=/`
-          )
+          .setHeader("Set-Cookie", `access_token=${await jwt.signToken(user)}`)
           .json(
             handleReturn({
               data: user,
@@ -119,7 +76,81 @@ function login(req, res) {
   });
 }
 
-function deleteUserById(req, res) {
+async function getAllUsers(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (tokenPayload?.userInfo?.authority !== "站长") {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
+
+  User.find((error, docs) => {
+    if (!error) {
+      res.status(200).json(
+        handleReturn({
+          data: docs,
+          returnCode: httpStatus[200],
+        })
+      );
+    } else {
+      res.json(
+        handleReturn({
+          returnCode: httpStatus[500],
+          error,
+        })
+      );
+    }
+  });
+}
+
+async function getUserById(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (tokenPayload?.userInfo?.authority !== "站长") {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
+  User.findById(req.params.id, (error, docs) => {
+    if (!error) {
+      res.json(
+        handleReturn({
+          data: docs,
+          returnCode: httpStatus[200],
+        })
+      );
+    } else {
+      res.json(
+        handleReturn({
+          returnCode: httpStatus[500],
+          error,
+        })
+      );
+    }
+  });
+}
+
+async function deleteUserById(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (tokenPayload?.userInfo?.authority !== "站长") {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
   User.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
       res.json(

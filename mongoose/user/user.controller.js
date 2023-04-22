@@ -96,7 +96,7 @@ function login(req, res) {
       } else {
         res
           .status(200)
-          .cookie("access_token", await jwt.signToken(user))
+          .setHeader("Set-Cookie", `access_token=${await jwt.signToken(user)}}`)
           .json(
             handleReturn({
               data: user,

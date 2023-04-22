@@ -16,7 +16,7 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "content-type"
+          "value": "content-type,Authorization"
         },
         {
           "key": "Access-Control-Allow-Methods",

@@ -94,8 +94,10 @@ function login(req, res) {
           message: "Invalid email or password!",
         });
       } else {
+        console.log("req:", req.cookie);
         res
           .status(200)
+          .setHeader("Access-Control-Allow-Origin", req.host)
           .setHeader("Set-Cookie", `access_token=${await jwt.signToken(user)}}`)
           .json(
             handleReturn({

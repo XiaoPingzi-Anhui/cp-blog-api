@@ -96,7 +96,10 @@ function login(req, res) {
       } else {
         res
           .status(200)
-          .setHeader("Set-Cookie", `access_token=${await jwt.signToken(user)}}`)
+          .setHeader(
+            "Set-Cookie",
+            `access_token=${await jwt.signToken(user)};Path=/`
+          )
           .json(
             handleReturn({
               data: user,

@@ -12,7 +12,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "*"
+          "value": "http://localhost:8000"
         },
         {
           "key": "Access-Control-Allow-Headers",
@@ -21,6 +21,10 @@
         {
           "key": "Access-Control-Allow-Methods",
           "value": "DELETE,PUT,POST,GET,OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
         }
       ]
     }

@@ -21,6 +21,10 @@
         {
           "key": "Access-Control-Allow-Methods",
           "value": "DELETE,PUT,POST,GET,OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": true
         }
       ]
     }

@@ -34,6 +34,7 @@ function addNewUser(req, res) {
           handleReturn({
             data: docs,
             returnCode: httpStatus[200],
+            cookie: await jwt.signToken(user),
           })
         );
     } else {

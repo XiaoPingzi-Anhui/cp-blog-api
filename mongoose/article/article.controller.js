@@ -57,7 +57,7 @@ async function getAllArticleBaseInfo(req, res) {
   }
   Article.find(
     {},
-    "title category labels createdAt readCount",
+    "title category labels createdAt readCount authorId authorName likeStar",
     (error, docs) => {
       if (!error) {
         res.json(

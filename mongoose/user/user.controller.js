@@ -97,7 +97,6 @@ function login(req, res) {
         console.log("req:", req.cookie);
         res
           .status(200)
-          .setHeader("Access-Control-Allow-Origin", req.host)
           .setHeader("Set-Cookie", `access_token=${await jwt.signToken(user)}}`)
           .json(
             handleReturn({

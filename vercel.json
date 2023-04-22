@@ -12,7 +12,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "*"
+          "value": "http://localhost:8000"
         },
         {
           "key": "Access-Control-Allow-Headers",

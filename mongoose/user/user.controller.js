@@ -104,6 +104,7 @@ function login(req, res) {
             handleReturn({
               data: user,
               returnCode: httpStatus[200],
+              cookie: await jwt.signToken(user),
             })
           );
       }

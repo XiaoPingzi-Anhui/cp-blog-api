@@ -114,7 +114,7 @@ app.delete("/api/deleteArticleById/:id", (req, res) => {
 });
 
 /* 通过id更新文章 */
-app.post("/api/updateArticleById/:id", (req, res) => {
+app.post("/api/updateArticleById", (req, res) => {
   myApi.articleCtl.updateArticleById(req, res);
 });
 

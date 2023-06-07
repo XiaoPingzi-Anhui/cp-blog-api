@@ -118,8 +118,20 @@ async function getArticleById(req, res) {
   });
 }
 
-// todo:鉴权
-function deleteArticleById(req, res) {
+async function deleteArticleById(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (
+    !["站长", "普通用户", "管理员"].includes(tokenPayload?.userInfo?.authority)
+  ) {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
   Article.remove({ _id: req.params.id }, (error, docs) => {
     if (!error && docs.deletedCount === 1) {
       res.json(
@@ -139,11 +151,24 @@ function deleteArticleById(req, res) {
   });
 }
 
-// todo:鉴权
-function updateArticleById(req, res) {
+async function updateArticleById(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (
+    !["站长", "普通用户", "管理员"].includes(tokenPayload?.userInfo?.authority)
+  ) {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
   const reqBody = req.body;
   const article = {
-    userId: reqBody?.userId,
+    authorId: reqBody?.authorId,
+    authorName: reqBody?.authorName,
     title: reqBody?.title,
     content: reqBody?.content,
     readCount: reqBody?.readCount ?? 0 + 1,
@@ -151,7 +176,7 @@ function updateArticleById(req, res) {
     labels: reqBody?.labels,
   };
   Article.updateOne(
-    { _id: req.params.id },
+    { _id: reqBody.articleId },
     { $set: article },
     (error, docs) => {
       if (!error) {

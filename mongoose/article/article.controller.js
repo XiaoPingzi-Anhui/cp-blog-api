@@ -18,8 +18,9 @@ async function addNewArticle(req, res) {
     );
   }
   const reqBody = req.body;
-  const article = new Article({
-    userId: reqBody?.userId,
+  const article = new Article({  
+    authorId: reqBody?.authorId,
+    authorName: reqBody?.authorName,
     title: reqBody?.title,
     content: reqBody?.content,
     readCount: 0,

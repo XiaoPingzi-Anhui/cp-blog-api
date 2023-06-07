@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const ArticleSchema = new mongoose.Schema(
   {
     /** 创建者id */
-    userId: {
+    authorId: {
       type: String,
       required: true,
     },

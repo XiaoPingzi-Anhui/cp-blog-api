@@ -8,6 +8,10 @@ const ArticleSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    authorName: {
+      type: String,
+      required: true,
+    },
     /** 标题 */
     title: {
       type: String,

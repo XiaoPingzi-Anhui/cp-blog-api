@@ -35,7 +35,12 @@ const ArticleSchema = new mongoose.Schema(
     /** 点赞数量 */
     likeStar: Number,
     /** 文章标签 */
-    labels: String,
+    labels: {
+      type: String,
+      required: true,
+    },
+    /** 仅自己可见 */
+    ownSee:{ type: Boolean },
   },
   { timestamps: true }
 );

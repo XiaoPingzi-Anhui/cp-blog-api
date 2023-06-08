@@ -26,6 +26,7 @@ async function addNewArticle(req, res) {
     readCount: 0,
     category: reqBody?.category,
     labels: reqBody?.labels,
+    ownSee: reqBody?.ownSee || false,
   });
   article.save((error, docs) => {
     if (!error) {
@@ -45,25 +46,30 @@ async function addNewArticle(req, res) {
 }
 
 async function getAllArticleBaseInfo(req, res) {
-  // const tokenPayload = await jwt.verifyToken(
-  //   req.headers?.authorization ?? "cp"
-  // );
-  // if (!tokenPayload?.userInfo?.authority) {
-  //   return res.json(
-  //     handleReturn({
-  //       returnCode: httpStatus[401],
-  //       error: 'message: "Unauthorized",',
-  //     })
-  //   );
-  // }
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (!tokenPayload?.userInfo?.authority) {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
   Article.find(
     {},
-    "title category labels createdAt readCount authorId authorName likeStar",
+    "title category labels createdAt readCount authorId authorName likeStar ownSee",
     (error, docs) => {
       if (!error) {
         res.json(
           handleReturn({
-            data: docs,
+            data: docs?.reduce((pre,cur)=>{
+              if(tokenPayload?.userInfo?.authority === '站长' || tokenPayload?.userInfo?._id === cur?.authorId || !cur?.ownSee) {
+                pre.push(cur)
+              } 
+              return pre;
+            },[]),
             returnCode: httpStatus[200],
           })
         );
@@ -80,17 +86,17 @@ async function getAllArticleBaseInfo(req, res) {
 }
 
 async function getArticleById(req, res) {
-  // const tokenPayload = await jwt.verifyToken(
-  //   req.headers?.authorization ?? "cp"
-  // );
-  // if (!tokenPayload?.userInfo?.authority) {
-  //   return res.json(
-  //     handleReturn({
-  //       returnCode: httpStatus[401],
-  //       error: 'message: "Unauthorized",',
-  //     })
-  //   );
-  // }
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (!tokenPayload?.userInfo?.authority) {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
   Article.findById(req.params.id, (error, docs) => {
     if (!error) {
       const article = {
@@ -174,6 +180,7 @@ async function updateArticleById(req, res) {
     readCount: reqBody?.readCount ?? 0 + 1,
     category: reqBody?.category,
     labels: reqBody?.labels,
+    ownSee: reqBody?.ownSee,
   };
   Article.updateOne(
     { _id: reqBody.articleId },

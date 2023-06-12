@@ -204,7 +204,7 @@ async function updateUserById(req, res) {
     { $set: user },
     (error, docs) => {
       if (!error) {
-        User.findById(req.params.id, async (errorInner, user) => {
+        User.findById(reqBody.userId, async (errorInner, user) => {
           if (!errorInner) {
             res.setHeader("Set-Cookie", `access_token=${await jwt.signToken(user)}`)
             .json(

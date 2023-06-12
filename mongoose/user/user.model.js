@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema(
         "The value of path {PATH} ({VALUE}) is not a valid mobile number.",
       ],
     },
-    sex: String,
+    sex: { type: String },
     likeArticlesId: {
       type: String,
       default: "",
@@ -41,11 +41,15 @@ const UserSchema = new mongoose.Schema(
       default: "",
     },
     avatarUrl: {
-      type:String,
-      default:'https://xsgames.co/randomusers/avatar.php?g=pixel&key=1'
+      type: String,
+      default: 'https://xsgames.co/randomusers/avatar.php?g=pixel&key=1'
     },
-    age: Number,
-    birthday: Date,
+    age: {
+      type: Number,
+    },
+    birthday: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

@@ -204,12 +204,18 @@ async function updateUserById(req, res) {
     { $set: user },
     (error, docs) => {
       if (!error) {
-        res.json(
-          handleReturn({
-            data: docs,
-            returnCode: httpStatus[200],
-          })
-        );
+        User.findById(req.params.id, async (errorInner, user) => {
+          if (!errorInner) {
+            res.setHeader("Set-Cookie", `access_token=${await jwt.signToken(user)}`)
+            .json(
+              handleReturn({
+                data: user,
+                returnCode: httpStatus[200],
+                cookie: await jwt.signToken(user),
+              })
+            );
+          } 
+        })
       } else {
         res.json(
           handleReturn({

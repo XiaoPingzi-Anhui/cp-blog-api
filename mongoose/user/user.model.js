@@ -40,7 +40,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    avatarLink: String,
+    avatarUrl: {
+      type:String,
+      default:'https://xsgames.co/randomusers/avatar.php?g=pixel&key=1'
+    },
     age: Number,
     birthday: Date,
   },

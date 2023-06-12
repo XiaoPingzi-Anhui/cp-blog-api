@@ -171,10 +171,62 @@ async function deleteUserById(req, res) {
   });
 }
 
+async function updateUserById(req, res) {
+  const tokenPayload = await jwt.verifyToken(
+    req.headers?.authorization ?? "cp"
+  );
+  if (
+    !["站长", "普通用户", "管理员"].includes(tokenPayload?.userInfo?.authority)
+  ) {
+    return res.json(
+      handleReturn({
+        returnCode: httpStatus[401],
+        error: 'message: "Unauthorized",',
+      })
+    );
+  }
+  const reqBody = req.body;
+  const user = {
+    email: reqBody?.email,
+    authority: reqBody?.authority,
+    passwordHash: reqBody?.passwordHash,
+    username: reqBody?.username,
+    phoneNumber: reqBody?.phoneNumber,
+    sex: reqBody?.sex,
+    likeArticlesId: reqBody?.likeArticlesId,
+    personalSignature: reqBody?.personalSignature,
+    avatarUrl: reqBody?.avatarUrl,
+    age: reqBody?.age,
+    birthday: reqBody?.birthday,
+  };
+  User.updateOne(
+    { _id: reqBody.userId },
+    { $set: user },
+    (error, docs) => {
+      if (!error) {
+        res.json(
+          handleReturn({
+            data: docs,
+            returnCode: httpStatus[200],
+          })
+        );
+      } else {
+        res.json(
+          handleReturn({
+            returnCode: httpStatus[500],
+            error: "can not find item",
+          })
+        );
+      }
+    }
+  );
+}
+
 module.exports = {
   getAllUsers,
   addNewUser,
   getUserById,
   deleteUserById,
   login,
+  updateUserById
 };

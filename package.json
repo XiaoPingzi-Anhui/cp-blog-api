@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "cp-blog的api服务，部署在vercel的node api服务",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup --config"
   },
   "repository": {
     "type": "git",
@@ -33,5 +34,11 @@
     "uuid": "^8.3.2",
     "jsonwebtoken": "^8.5.1",
     "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.12.0"
   }
 }

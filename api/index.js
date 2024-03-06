@@ -3,21 +3,20 @@ const bodyParser = require("body-parser");
 const myApi = require("../mongoose/index");
 const handleReturn = require("../utils/handleReturn");
 const httpStatus = require("http-status");
+const http = require('http');
+const https = require('https');
+const fs = require('fs')
 
 const app = express();
-app.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
+app.use('*', (req, res, next) => {
+  const { origin, Origin, referer, Referer } = req.headers;
+  const allowOrigin = origin || Origin || referer || Referer || '*';
+  res.header('Access-Control-Allow-Origin', allowOrigin);
   res.header('Access-Control-Allow-Headers', 'content-type,Authorization');
-  res.header('Access-Control-Allow-Methods', '*');
-  res.header('Content-Type', 'application/json;charset=utf-8');
-  if (req.method.toLowerCase() == 'options') {
-    res.json(
-      handleReturn({
-        data: [],
-        returnCode: httpStatus[200],
-      })
-    );
-  }
+  res.header('Access-Control-Expose-Headers', 'Content-Disposition');
+  res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  if (req.method.toLocaleLowerCase() == 'options') res.sendStatus(204);
   next();
 });
 
@@ -123,10 +122,19 @@ app.post("/api/updateArticleById", (req, res) => {
   myApi.articleCtl.updateArticleById(req, res);
 });
 
-const server = app.listen(8082, function () {
+const server = process.platform === 'win32' ? http.createServer(app) : https.createServer({
+    key: fs.readFileSync(
+      '/usr/share/nginx/ssl-card/www.chenping.space.key'
+    ),
+    cert: fs.readFileSync(
+      '/usr/share/nginx/ssl-card/www.chenping.space_bundle.crt'
+    ),
+  }, app);
+
+server.listen(8082, ()=> {
   const host = server.address().address;
   const port = server.address().port;
   console.log("应用实例，访问地址为 http://%s:%s", host, port);
-});
+})
 
-module.exports = app;
+module.exports = server;
